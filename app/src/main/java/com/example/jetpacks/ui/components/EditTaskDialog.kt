@@ -52,39 +52,34 @@ fun EditTaskDialog(
             )
         },
         floatingActionButton = {
-            // Même modification pour EditTaskDialog
-            Box(
+            Button(
+                onClick = {
+                    if (title.isNotBlank()) {
+                        onEditTask(task.id, title, selectedLabel, selectedPriority)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
+                    .height(60.dp),
+                enabled = title.isNotBlank(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2196F3),
+                    disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                ),
+                shape = MaterialTheme.shapes.medium
             ) {
-                Button(
-                    onClick = {
-                        if (title.isNotBlank()) {
-                            onEditTask(task.id, title, selectedLabel, selectedPriority)
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth() // ← ÉLARGI
-                        .height(56.dp), // ← HAUTEUR augmentée
-                    enabled = title.isNotBlank(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF2196F3),
-                        disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-                        disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
-                    ),
-                    shape = MaterialTheme.shapes.medium
-                ) {
-                    Text(
-                        "Done",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                        )
+                Text(
+                    "Done",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
                     )
-                }
+                )
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -163,7 +158,7 @@ fun EditTaskDialog(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Section Priority - ALIGNÉ À GAUCHE
+            // Section Priority
             Text(
                 "Priority",
                 style = MaterialTheme.typography.bodyLarge.copy(

@@ -6,7 +6,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,38 +50,34 @@ fun AddTaskDialog(
             )
         },
         floatingActionButton = {
-            Box(
+            Button(
+                onClick = {
+                    if (title.isNotBlank()) {
+                        onAddTask(title, selectedLabel, selectedPriority)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
+                    .height(60.dp),
+                enabled = title.isNotBlank(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2196F3),
+                    disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                ),
+                shape = MaterialTheme.shapes.medium
             ) {
-                Button(
-                    onClick = {
-                        if (title.isNotBlank()) {
-                            onAddTask(title, selectedLabel, selectedPriority)
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    enabled = title.isNotBlank(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF2196F3),
-                        disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-                        disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
-                    ),
-                    shape = MaterialTheme.shapes.medium
-                ) {
-                    Text(
-                        "Done",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
-                        )
+                Text(
+                    "Add",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
                     )
-                }
+                )
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -206,7 +201,6 @@ fun AddTaskDialog(
             }
 
             Spacer(modifier = Modifier.height(100.dp))
-
         }
     }
 }
